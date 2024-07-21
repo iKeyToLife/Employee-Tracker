@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS employee_db;
-CREATE DATABASE employee_db;
+DROP DATABASE IF EXISTS employees_db;
+CREATE DATABASE employees_db;
 
-\c employee_db;
+\c employees_db;
 
 CREATE TABLE department (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(30)
+    name VARCHAR(30) UNIQUE
 );
 
 CREATE TABLE role (
@@ -29,4 +29,5 @@ CREATE TABLE employee (
     ON DELETE SET NULL,
     FOREIGN KEY (manager_id)
     REFERENCES employee(id)
+    ON DELETE SET NULL
 );
