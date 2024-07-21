@@ -47,6 +47,9 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 ## Mock-Up
 
+Next screenshot shows schema db
+![Schema DB](./assets/schema-db.png)
+
 The following video shows an example of the application being used from the command line:
 
 [![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./assets/preview-video.png)](https://2u-20.wistia.com/medias/2lnle7xnpk)
@@ -65,6 +68,7 @@ To install the application, follow these steps:
    ```bash
    npm install
 4. Create a PostgreSQL database and configure the connection settings in the configuration file.
+5. Create .env in root and set your DB_USER, DB_PASSWORD, DB_NAME.
 
 ## Usage
 
