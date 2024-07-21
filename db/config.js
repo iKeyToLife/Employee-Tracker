@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 
 const pool = new Pool(
     {
@@ -11,7 +11,6 @@ const pool = new Pool(
         // TODO: Enter PostgreSQL db_name
         database: process.env.DB_NAME
     },
-    console.log(`Connected database.`)
 )
 
 

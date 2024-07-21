@@ -107,3 +107,4 @@ class Questionnaire {
     }
 }
 
+module.exports = Questionnaire;
