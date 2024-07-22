@@ -32,6 +32,17 @@ class Questionnaire {
         }
     }
 
+    deleteDepartment() {
+        return [
+            {
+                type: 'list',
+                name: 'departmentId',
+                message: 'Which department do you want to delete?',
+                choices: this.departments
+            }
+        ]
+    }
+
     addRole() {
         return [{
             message: `What is the name of the role?`,
@@ -47,6 +58,17 @@ class Questionnaire {
             type: `list`,
             choices: this.departments
         }
+        ]
+    }
+
+    deleteRole() {
+        return [
+            {
+                type: 'list',
+                name: 'roleId',
+                message: 'Which role do you want to delete?',
+                choices: this.roles
+            }
         ]
     }
 
@@ -76,7 +98,7 @@ class Questionnaire {
     updateEmployee() {
         return [{
             message: `Which employee do you want to update?`,
-            name: `name`,
+            name: `id`,
             type: `list`,
             choices: this.employees
         },
@@ -104,6 +126,17 @@ class Questionnaire {
             type: `list`,
             choices: [`None`, ...this.employees]
         }]
+    }
+
+    deleteEmployee() {
+        return [
+            {
+                type: 'list',
+                name: 'employeeId',
+                message: 'Which employee do you want to delete?',
+                choices: this.employees
+            }
+        ];
     }
 }
 

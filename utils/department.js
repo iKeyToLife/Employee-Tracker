@@ -11,7 +11,6 @@ class Department {
         const values = [name];
         const result = await pool.query(query, values);
         console.log(`Added ${result.rows[0].name} to the database`)
-
     }
 
     async deleteDepartmentById(id) {
