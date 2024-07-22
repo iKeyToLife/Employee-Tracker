@@ -1,7 +1,7 @@
 const pool = require(`../db/config`);
 
 class Department {
-    async getDepartments() {
+    async getAllDepartments() {
         const result = await pool.query(`SELECT * FROM department`);
         return result.rows;
     }
@@ -14,11 +14,15 @@ class Department {
 
     }
 
-    async deleteDepartment(id) {
+    async deleteDepartmentById(id) {
         const query = `DELETE FROM department WHERE id = $1 RETURNING name`
         const values = [id];
         const result = await pool.query(query, values);
-        console.log(`Deleted ${result.rows[0].name} to the database`)
+        if (result.rows.length > 0) {
+            console.log(`Deleted ${result.rows[0].name} in the database`)
+        } else {
+            console.log(`Department with id ${id} not found`);
+        }
     }
 }
 

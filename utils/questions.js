@@ -22,7 +22,7 @@ class Questionnaire {
             message: `What would you like to do?`,
             name: `choice`,
             type: `list`,
-            choices: [`View All Employees`, `Add Employee`, `Update Employee`, `View All Roles`, `Add Role`, `View All Departments`, `Add Department`, `Quit`]
+            choices: [`View All Employees`, `Add Employee`, `Update Employee`, `Delete Employee`, `View All Roles`, `Add Role`, `Delete Role`, `View All Departments`, `Add Department`, `Delete Department`, `Quit`]
         };
     }
     addDepartment() {
@@ -35,7 +35,7 @@ class Questionnaire {
     addRole() {
         return [{
             message: `What is the name of the role?`,
-            name: `name`
+            name: `title`
         },
         {
             message: `What is the salary of the role?`,
@@ -74,7 +74,7 @@ class Questionnaire {
     }
 
     updateEmployee() {
-        [{
+        return [{
             message: `Which employee do you want to update?`,
             name: `name`,
             type: `list`,
