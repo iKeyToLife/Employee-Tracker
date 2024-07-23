@@ -19,13 +19,6 @@ async function mainMenu() {
 async function init() {
     const handleActions = new HandleActions();
     try {
-        let isUpdate = false;
-        const departments = await handleActions.fetchDepartments(isUpdate);
-        const roles = await handleActions.fetchRoles(isUpdate);
-        const employees = await handleActions.fetchEmployees(isUpdate);
-        questionnaire.setDepartments(departments);
-        questionnaire.setRoles(roles);
-        questionnaire.setEmployees(employees);
 
         const actionHandlers = handleActions.actions()
 

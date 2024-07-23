@@ -11,61 +11,52 @@ class HandleActions extends Actions {
         super();
         this.exit = false;
     }
-    async fetchDepartments(isUpdate) {
-
+    async fetchDepartments() {
         const department = new Department();
-        const departments = await department.getAllDepartments();
-
-        if (!isUpdate) {
-            return departments;
-        } else {
-            return departments.map(dep => ({
-                name: `${dep.name}`,
-                id: dep.id,
-                value: dep.id
-            }));
-        }
+        return await department.getAllDepartments();
     }
 
-    async fetchRoles(isUpdate) {
-
+    async fetchRoles() {
         const role = new Role();
-        const roles = await role.getAllRoles();
-
-        if (!isUpdate) {
-            return roles;
-        } else {
-            return roles.map(role => ({
-                name: `${role.title} (ID: ${role.id})`,
-                value: role.id
-            }));
-        }
+        return await role.getAllRoles();
     }
 
-    async fetchEmployees(isUpdate) {
-
+    async fetchEmployees() {
         const employee = new Employee();
-        const employees = await employee.getAllEmployeesData();
-
-        if (!isUpdate) {
-            return employees;
-        } else {
-            return employees.map(emp => ({
-                name: `${emp.first_name} ${emp.last_name} (ID: ${emp.id})`,
-                value: emp.id
-            }));
-        }
+        return await employee.getAllEmployeesData();
     }
 
-    async handleViewAllDepartments(isUpdate) {
-        const departments = await this.fetchDepartments(isUpdate);
+    formattedDepartments(departments) {
+        return departments.map(dep => ({
+            name: `${dep.name}`,
+            id: dep.id,
+            value: dep.id
+        }));
+    }
+
+    formattedEmployees(employees) {
+        return employees.map(emp => ({
+            name: `${emp.first_name} ${emp.last_name} (ID: ${emp.id})`,
+            value: emp.id
+        }));
+    }
+
+    formatedRoles(roles) {
+        return roles.map(role => ({
+            name: `${role.title} (ID: ${role.id})`,
+            value: role.id
+        }));
+    }
+
+    async handleViewAllDepartments() {
+        const departments = await this.fetchDepartments();
         console.table(departments);
     }
 
-    async handleViewAllRoles(isUpdate) {
+    async handleViewAllRoles() {
 
-        const roles = await this.fetchRoles(isUpdate);
-        const departments = await this.fetchDepartments(isUpdate);
+        const roles = await this.fetchRoles();
+        const departments = await this.fetchDepartments();
 
         const formatedRoles = roles.map(role => ({
             id: role.id,
@@ -77,9 +68,9 @@ class HandleActions extends Actions {
         console.table(formatedRoles);
     }
 
-    async handleViewAllEmployees(isUpdate) {
+    async handleViewAllEmployees() {
 
-        const employees = await this.fetchEmployees(isUpdate);
+        const employees = await this.fetchEmployees();
         console.table(employees);
     }
 
@@ -91,24 +82,27 @@ class HandleActions extends Actions {
         await department.addDepartment(answer.name);
     }
 
-    async handleAddRole(isUpdate) {
+    async handleAddRole() {
 
-        const departments = await this.fetchDepartments(isUpdate);
-
-        questionnaire.setDepartments(departments);
+        const departments = await this.fetchDepartments();
+        const formattedDepartments = this.formattedDepartments(departments);
+        questionnaire.setDepartments(formattedDepartments);
         const answers = await inquirer.prompt(questionnaire.addRole());
 
         const role = new Role(answers.title, answers.salary, answers.department);
         await role.addRole(role);
     }
 
-    async handleAddEmployee(isUpdate) {
+    async handleAddEmployee() {
 
-        const roles = await this.fetchRoles(isUpdate);
-        const employees = await this.fetchEmployees(isUpdate);
+        const roles = await this.fetchRoles();
+        const employees = await this.fetchEmployees();
 
-        questionnaire.setRoles(roles);
-        questionnaire.setEmployees(employees);
+        const formatedRoles = this.formatedRoles(roles);
+        const formattedEmployees = this.formattedEmployees(employees);
+
+        questionnaire.setRoles(formatedRoles);
+        questionnaire.setEmployees(formattedEmployees);
         const answers = await inquirer.prompt(questionnaire.addEmployee());
 
         const managerId = answers.manager === 'None' ? null : answers.manager;
@@ -117,18 +111,21 @@ class HandleActions extends Actions {
         await employee.addEmployee(employee);
     }
 
-    async handleUpdateEmployee(isUpdate) {
+    async handleUpdateEmployee() {
 
-        const employees = await this.fetchEmployees(isUpdate);
+        const employees = await this.fetchEmployees();
+        const formattedEmployees = this.formattedEmployees(employees);
 
-        questionnaire.setEmployees(employees);
+        questionnaire.setEmployees(formattedEmployees);
         const employeeAnswer = await inquirer.prompt(questionnaire.updateEmployee());
         const employeeId = employeeAnswer.id;
 
         if (employeeAnswer.update === 'role') {
 
-            const roles = await this.fetchRoles(isUpdate);
-            questionnaire.setRoles(roles);
+            const roles = await this.fetchRoles();
+            const formatedRoles = this.formatedRoles(roles);
+
+            questionnaire.setRoles(formatedRoles);
             const roleAnswer = await inquirer.prompt(questionnaire.updateEmployeeRole());
 
             const employee = new Employee();
@@ -136,8 +133,10 @@ class HandleActions extends Actions {
 
         } else if (employeeAnswer.update === 'manager') {
 
-            const managers = await this.fetchEmployees(isUpdate);
-            questionnaire.setEmployees(managers);
+            const managers = await this.fetchEmployees();
+            const formattedManagers = this.formattedEmployees(managers);
+
+            questionnaire.setEmployees(formattedManagers);
             const managerAnswer = await inquirer.prompt(questionnaire.updateEmployeeManager());
 
             const managerId = managerAnswer.manager === 'None' ? null : managerAnswer.manager;
@@ -146,40 +145,45 @@ class HandleActions extends Actions {
         }
     }
 
-    async handleDeleteDepartment(isUpdate) {
+    async handleDeleteDepartment() {
 
-        const departments = await this.fetchDepartments(isUpdate);
-
-        questionnaire.setDepartments(departments);
+        const departments = await this.fetchDepartments();
+        const formattedDepartments = this.formattedDepartments(departments);
+        questionnaire.setDepartments(formattedDepartments);
         const answer = await inquirer.prompt(questionnaire.deleteDepartment());
 
         const department = new Department();
         await department.deleteDepartmentById(answer.departmentId);
     }
 
-    async handleDeleteRole(isUpdate) {
+    async handleDeleteRole() {
 
-        const roles = await this.fetchRoles(isUpdate);
-        questionnaire.setRoles(roles);
+        const roles = await this.fetchRoles();
+        const formatedRoles = this.formatedRoles(roles);
+
+        questionnaire.setRoles(formatedRoles);
         const answer = await inquirer.prompt(questionnaire.deleteRole());
 
         const role = new Role();
         await role.deleteRoleById(answer.roleId);
     }
 
-    async handleDeleteEmployee(isUpdate) {
+    async handleDeleteEmployee() {
 
-        const employees = await this.fetchEmployees(isUpdate);
-        questionnaire.setEmployees(employees);
+        const employees = await this.fetchEmployees();
+        const formattedEmployees = this.formattedEmployees(employees);
+
+        questionnaire.setEmployees(formattedEmployees);
         const answer = await inquirer.prompt(questionnaire.deleteEmployee());
 
         const employee = new Employee();
         await employee.deleteEmployeeById(answer.employeeId);
     }
 
-    async handleViewEmployeesByManager(isUpdate) {
-        const employees = await this.fetchEmployees(isUpdate);
-        questionnaire.setEmployees(employees);
+    async handleViewEmployeesByManager() {
+        const employees = await this.fetchEmployees();
+        const formattedEmployees = this.formattedEmployees(employees);
+        questionnaire.setEmployees(formattedEmployees);
         const answer = await inquirer.prompt(questionnaire.findEmployeeByManager());
 
         const employee = new Employee();
@@ -192,19 +196,18 @@ class HandleActions extends Actions {
     }
 
     actions() {
-        let isUpdate = false;
         return {
-            [this.VIEW_ALL_EMPLOYEES]: () => this.handleViewAllEmployees(isUpdate),
-            [this.VIEW_EMPLOYEES_BY_MANAGER]: () => this.handleViewEmployeesByManager(!isUpdate),
-            [this.ADD_EMPLOYEE]: () => this.handleAddEmployee(!isUpdate),
-            [this.UPDATE_EMPLOYEE]: () => this.handleUpdateEmployee(!isUpdate),
-            [this.DELETE_EMPLOYEE]: () => this.handleDeleteEmployee(!isUpdate),
-            [this.VIEW_ALL_ROLES]: () => this.handleViewAllRoles(isUpdate),
-            [this.ADD_ROLE]: () => this.handleAddRole(!isUpdate),
-            [this.DELETE_ROLE]: () => this.handleDeleteRole(!isUpdate),
-            [this.VIEW_ALL_DEPARTMENTS]: () => this.handleViewAllDepartments(isUpdate),
+            [this.VIEW_ALL_EMPLOYEES]: () => this.handleViewAllEmployees(),
+            [this.VIEW_EMPLOYEES_BY_MANAGER]: () => this.handleViewEmployeesByManager(),
+            [this.ADD_EMPLOYEE]: () => this.handleAddEmployee(),
+            [this.UPDATE_EMPLOYEE]: () => this.handleUpdateEmployee(),
+            [this.DELETE_EMPLOYEE]: () => this.handleDeleteEmployee(),
+            [this.VIEW_ALL_ROLES]: () => this.handleViewAllRoles(),
+            [this.ADD_ROLE]: () => this.handleAddRole(),
+            [this.DELETE_ROLE]: () => this.handleDeleteRole(),
+            [this.VIEW_ALL_DEPARTMENTS]: () => this.handleViewAllDepartments(),
             [this.ADD_DEPARTMENT]: () => this.handleAddDepartment(),
-            [this.DELETE_DEPARTMENT]: () => this.handleDeleteDepartment(!isUpdate),
+            [this.DELETE_DEPARTMENT]: () => this.handleDeleteDepartment(),
             [this.QUIT]: () => { this.exit = true; }
         };
     }
