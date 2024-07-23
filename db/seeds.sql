@@ -9,7 +9,9 @@ INSERT INTO role (title, salary, department) VALUES
 ('Sales Representative', 50000, (SELECT id FROM department WHERE name = 'Sales'));
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
-('John', 'Doe', (SELECT id FROM role WHERE title = 'HR Manager'), NULL),
+('John', 'Doe', (SELECT id FROM role WHERE title = 'HR Manager'), NULL);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
 ('Jane', 'Smith', (SELECT id FROM role WHERE title = 'Software Engineer'), (SELECT id FROM employee WHERE first_name = 'John' AND last_name = 'Doe')),
-('Emily', 'Jones', (SELECT id FROM role WHERE title = 'Sales Representative'), (SELECT id FROM employee WHERE first_name = 'John' AND last_name = 'Doe')),
+('Emily', 'Jones', (SELECT id FROM role WHERE title = 'Sales Representative'), (SELECT id FROM employee WHERE first_name = 'John' AND last_name = 'Doe'));
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES 
 ('Michael', 'Brown', (SELECT id FROM role WHERE title = 'Software Engineer'), (SELECT id FROM employee WHERE first_name = 'Jane' AND last_name = 'Smith'));
