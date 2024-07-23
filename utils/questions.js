@@ -26,6 +26,7 @@ class Questionnaire {
             name: `choice`,
             type: `list`,
             choices: [actions.VIEW_ALL_EMPLOYEES,
+            actions.VIEW_EMPLOYEES_BY_MANAGER,
             actions.ADD_EMPLOYEE,
             actions.UPDATE_EMPLOYEE,
             actions.DELETE_EMPLOYEE,
@@ -147,6 +148,17 @@ class Questionnaire {
                 type: 'list',
                 name: 'employeeId',
                 message: 'Which employee do you want to delete?',
+                choices: this.employees
+            }
+        ];
+    }
+
+    findEmployeeByManager() {
+        return [
+            {
+                type: 'list',
+                name: 'employeeId',
+                message: 'Which manager do you want to see employees by?',
                 choices: this.employees
             }
         ];

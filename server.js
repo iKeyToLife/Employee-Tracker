@@ -2,7 +2,7 @@ require('dotenv').config();
 const pool = require(`./db/config.js`);
 const inquirer = require('inquirer');
 const Questionnaire = require('./utils/questions.js');
-const HandleActions = require(`./utils/handleActions.js`)
+const HandleActions = require(`./utils/handleActions.js`);
 
 pool.connect()
     .then(() => console.log('Connected to the database.'))

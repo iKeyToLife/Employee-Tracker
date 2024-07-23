@@ -1,6 +1,7 @@
 class Actions {
     constructor() {
         this.VIEW_ALL_EMPLOYEES = 'View All Employees';
+        this.VIEW_EMPLOYEES_BY_MANAGER = 'View Employees by manager'
         this.ADD_EMPLOYEE = 'Add Employee';
         this.UPDATE_EMPLOYEE = 'Update Employee';
         this.DELETE_EMPLOYEE = 'Delete Employee';

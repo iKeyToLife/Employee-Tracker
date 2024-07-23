@@ -10,6 +10,7 @@ class Employee {
             this.managerId = managerId;
         }
     }
+
     async getAllEmployeesData() {
         const query = `SELECT 
     e.id,
@@ -66,6 +67,15 @@ class Employee {
         } else {
             console.log(`Employee with id ${id} not found`);
         }
+    }
+
+    async getEmployeesByManagerId(id) {
+        const result = await pool.query(`SELECT 
+            CONCAT(e.first_name, ' ', e.last_name) AS employee, 
+            CONCAT(m.first_name, ' ', m.last_name) AS manager 
+            FROM employee e JOIN employee m ON e.manager_id = m.id 
+            WHERE m.id = $1;`, [id]);
+        return result.rows;
     }
 }
 

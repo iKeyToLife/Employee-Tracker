@@ -177,10 +177,25 @@ class HandleActions extends Actions {
         await employee.deleteEmployeeById(answer.employeeId);
     }
 
+    async handleViewEmployeesByManager(isUpdate) {
+        const employees = await this.fetchEmployees(isUpdate);
+        questionnaire.setEmployees(employees);
+        const answer = await inquirer.prompt(questionnaire.findEmployeeByManager());
+
+        const employee = new Employee();
+        const manager = await employee.getEmployeesByManagerId(answer.employeeId);
+        if (manager.length > 0) {
+            console.table(manager);
+        } else {
+            console.log(`The current manager has no employees`)
+        }
+    }
+
     actions() {
         let isUpdate = false;
         return {
             [this.VIEW_ALL_EMPLOYEES]: () => this.handleViewAllEmployees(isUpdate),
+            [this.VIEW_EMPLOYEES_BY_MANAGER]: () => this.handleViewEmployeesByManager(!isUpdate),
             [this.ADD_EMPLOYEE]: () => this.handleAddEmployee(!isUpdate),
             [this.UPDATE_EMPLOYEE]: () => this.handleUpdateEmployee(!isUpdate),
             [this.DELETE_EMPLOYEE]: () => this.handleDeleteEmployee(!isUpdate),
