@@ -32,6 +32,16 @@ class Department {
         WHERE d.id = $1`, [id]);
         return result.rows;
     }
+
+    async getBudgetDepartmentById(id) {
+        const result = await pool.query(`SELECT d.name AS department, SUM(r.salary) AS total_budget
+            FROM department d
+            JOIN role r ON d.id = r.department
+            JOIN employee e ON r.id = e.role_id
+            WHERE d.id = $1
+            GROUP BY d.name`, [id]);
+        return result.rows;
+    }
 }
 
 module.exports = Department;

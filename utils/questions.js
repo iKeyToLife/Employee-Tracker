@@ -35,6 +35,7 @@ class Questionnaire {
             actions.DELETE_ROLE,
             actions.VIEW_ALL_DEPARTMENTS,
             actions.VIEW_EMPLOYEES_BY_DEPARTMENT,
+            actions.VIEW_BUDGET_DEPARTMENT,
             actions.ADD_DEPARTMENT,
             actions.DELETE_DEPARTMENT,
             actions.QUIT]
@@ -171,6 +172,17 @@ class Questionnaire {
                 type: 'list',
                 name: 'departmentId',
                 message: 'Which department employees would you like to see?',
+                choices: this.departments
+            }
+        ];
+    }
+
+    findBudgetByDeparment() {
+        return [
+            {
+                type: 'list',
+                name: 'departmentId',
+                message: 'Which department budget would you like to see?',
                 choices: this.departments
             }
         ];

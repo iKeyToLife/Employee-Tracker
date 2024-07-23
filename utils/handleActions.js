@@ -211,6 +211,22 @@ class HandleActions extends Actions {
         }
     }
 
+    async handleViewBudgetDepartment() {
+        const departments = await this.fetchDepartments();
+        const formattedDepartments = this.formattedDepartments(departments);
+        questionnaire.setDepartments(formattedDepartments);
+
+        const answer = await inquirer.prompt(questionnaire.findBudgetByDeparment());
+
+        const department = new Department();
+        const budget = await department.getBudgetDepartmentById(answer.departmentId);
+        if (budget.length > 0) {
+            console.table(budget);
+        } else {
+            console.log(`The current department has no employees`);
+        }
+    }
+
     actions() {
         return {
             [this.VIEW_ALL_EMPLOYEES]: () => this.handleViewAllEmployees(),
@@ -223,6 +239,7 @@ class HandleActions extends Actions {
             [this.DELETE_ROLE]: () => this.handleDeleteRole(),
             [this.VIEW_ALL_DEPARTMENTS]: () => this.handleViewAllDepartments(),
             [this.VIEW_EMPLOYEES_BY_DEPARTMENT]: () => this.handleViewEmployeesByDepartment(),
+            [this.VIEW_BUDGET_DEPARTMENT]: () => this.handleViewBudgetDepartment(),
             [this.ADD_DEPARTMENT]: () => this.handleAddDepartment(),
             [this.DELETE_DEPARTMENT]: () => this.handleDeleteDepartment(),
             [this.QUIT]: () => { this.exit = true; }
