@@ -126,5 +126,5 @@ To install the application, follow these steps:
 ## Repository Link
 [Employee Tracker Repository](https://github.com/iKeyToLife/Employee-Tracker)
 
-## Deployed Application
-[Employee Tracker Application]()
+## Video Application
+[Employee Tracker Application](https://www.loom.com/share/092cadf7c25741a4a7d4dc900393fec2?sid=1a367a7c-bf7b-4f78-9268-ee55b8ab5cd8)
