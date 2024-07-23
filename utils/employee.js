@@ -12,12 +12,12 @@ class Employee {
     }
     async getAllEmployeesData() {
         const query = `SELECT 
-    e.id AS id,
-    e.first_name AS first_name,
-    e.last_name AS last_name,
-    r.title AS role_title,
+    e.id,
+    e.first_name,
+    e.last_name,
+    r.title AS title,
     d.name AS department,
-    r.salary AS salary,
+    r.salary,
     NULLIF(CONCAT(m.first_name, ' ', m.last_name), ' ') AS manager
     FROM employee e
     LEFT JOIN role r ON e.role_id = r.id

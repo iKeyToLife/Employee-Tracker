@@ -1,3 +1,6 @@
+const Actions = require(`./actions`);
+const actions = new Actions();
+
 class Questionnaire {
     constructor() {
         this.departments = [];
@@ -22,7 +25,17 @@ class Questionnaire {
             message: `What would you like to do?`,
             name: `choice`,
             type: `list`,
-            choices: [`View All Employees`, `Add Employee`, `Update Employee`, `Delete Employee`, `View All Roles`, `Add Role`, `Delete Role`, `View All Departments`, `Add Department`, `Delete Department`, `Quit`]
+            choices: [actions.VIEW_ALL_EMPLOYEES,
+            actions.ADD_EMPLOYEE,
+            actions.UPDATE_EMPLOYEE,
+            actions.DELETE_EMPLOYEE,
+            actions.VIEW_ALL_ROLES,
+            actions.ADD_ROLE,
+            actions.DELETE_ROLE,
+            actions.VIEW_ALL_DEPARTMENTS,
+            actions.ADD_DEPARTMENT,
+            actions.DELETE_DEPARTMENT,
+            actions.QUIT]
         };
     }
     addDepartment() {
