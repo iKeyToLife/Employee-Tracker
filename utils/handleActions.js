@@ -29,7 +29,6 @@ class HandleActions extends Actions {
     formattedDepartments(departments) {
         return departments.map(dep => ({
             name: `${dep.name}`,
-            id: dep.id,
             value: dep.id
         }));
     }
@@ -195,6 +194,23 @@ class HandleActions extends Actions {
         }
     }
 
+    async handleViewEmployeesByDepartment() {
+        const departments = await this.fetchDepartments();
+        const formattedDepartments = this.formattedDepartments(departments);
+
+        questionnaire.setDepartments(formattedDepartments);
+
+        const answer = await inquirer.prompt(questionnaire.findEmployeesByDeparment());
+
+        const department = new Department();
+        const employees = await department.getEmployeesByDepartmentId(answer.departmentId);
+        if (employees.length > 0) {
+            console.table(employees);
+        } else {
+            console.log(`The current department has no employees`)
+        }
+    }
+
     actions() {
         return {
             [this.VIEW_ALL_EMPLOYEES]: () => this.handleViewAllEmployees(),
@@ -206,6 +222,7 @@ class HandleActions extends Actions {
             [this.ADD_ROLE]: () => this.handleAddRole(),
             [this.DELETE_ROLE]: () => this.handleDeleteRole(),
             [this.VIEW_ALL_DEPARTMENTS]: () => this.handleViewAllDepartments(),
+            [this.VIEW_EMPLOYEES_BY_DEPARTMENT]: () => this.handleViewEmployeesByDepartment(),
             [this.ADD_DEPARTMENT]: () => this.handleAddDepartment(),
             [this.DELETE_DEPARTMENT]: () => this.handleDeleteDepartment(),
             [this.QUIT]: () => { this.exit = true; }

@@ -23,6 +23,15 @@ class Department {
             console.log(`Department with id ${id} not found`);
         }
     }
+
+    async getEmployeesByDepartmentId(id) {
+        const result = await pool.query(`SELECT d.name AS department, CONCAT(e.first_name, ' ', e.last_name) AS employee
+        FROM department d
+        JOIN role r ON d.id = r.department
+        JOIN employee e ON r.id = e.role_id
+        WHERE d.id = $1`, [id]);
+        return result.rows;
+    }
 }
 
 module.exports = Department;

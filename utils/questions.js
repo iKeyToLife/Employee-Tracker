@@ -34,6 +34,7 @@ class Questionnaire {
             actions.ADD_ROLE,
             actions.DELETE_ROLE,
             actions.VIEW_ALL_DEPARTMENTS,
+            actions.VIEW_EMPLOYEES_BY_DEPARTMENT,
             actions.ADD_DEPARTMENT,
             actions.DELETE_DEPARTMENT,
             actions.QUIT]
@@ -160,6 +161,17 @@ class Questionnaire {
                 name: 'employeeId',
                 message: 'Which manager do you want to see employees by?',
                 choices: this.employees
+            }
+        ];
+    }
+
+    findEmployeesByDeparment() {
+        return [
+            {
+                type: 'list',
+                name: 'departmentId',
+                message: 'Which department employees would you like to see?',
+                choices: this.departments
             }
         ];
     }
