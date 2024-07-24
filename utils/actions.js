@@ -1,5 +1,6 @@
 class Actions {
     constructor() {
+        // Define various action constants
         this.VIEW_ALL_EMPLOYEES = 'View All Employees';
         this.VIEW_EMPLOYEES_BY_MANAGER = 'View Employees by manager'
         this.ADD_EMPLOYEE = 'Add Employee';

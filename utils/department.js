@@ -1,11 +1,14 @@
 const pool = require(`../db/config`);
 
 class Department {
+
+    // Retrieve all departments from the database
     async getAllDepartments() {
         const result = await pool.query(`SELECT * FROM department`);
         return result.rows;
     }
 
+    // Add a new department to the database and log the added department's name
     async addDepartment(name) {
         const query = `INSERT INTO department (name) VALUES ($1) RETURNING name`;
         const values = [name];
@@ -13,6 +16,7 @@ class Department {
         console.log(`Added ${result.rows[0].name} to the database`)
     }
 
+    // Delete a department by its ID and log the deleted department's name
     async deleteDepartmentById(id) {
         const query = `DELETE FROM department WHERE id = $1 RETURNING name`
         const values = [id];
@@ -24,6 +28,7 @@ class Department {
         }
     }
 
+    // Retrieve employees by their department ID
     async getEmployeesByDepartmentId(id) {
         const result = await pool.query(`SELECT d.name AS department, CONCAT(e.first_name, ' ', e.last_name) AS employee
         FROM department d
@@ -33,6 +38,7 @@ class Department {
         return result.rows;
     }
 
+    // Retrieve the total budget of a department by its ID
     async getBudgetDepartmentById(id) {
         const result = await pool.query(`SELECT d.name AS department, SUM(r.salary) AS total_budget
             FROM department d

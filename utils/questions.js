@@ -2,24 +2,30 @@ const Actions = require(`./actions`);
 const actions = new Actions();
 
 class Questionnaire {
+
+    // Initializes empty arrays for departments, roles, and employees
     constructor() {
         this.departments = [];
         this.roles = [];
         this.employees = [];
     }
 
+    // Sets the departments array
     setDepartments(departments) {
         this.departments = departments;
     }
 
+    // Sets the roles array
     setRoles(roles) {
         this.roles = roles;
     }
 
+    // Sets the employees array
     setEmployees(employees) {
         this.employees = employees;
     }
 
+    // Returns a question object for the main menu with a list of choices
     toDoChoice() {
         return {
             message: `What would you like to do?`,
@@ -41,6 +47,8 @@ class Questionnaire {
             actions.QUIT]
         };
     }
+
+    // Returns a question object to add a department
     addDepartment() {
         return {
             message: `What is the name of department?`,
@@ -48,6 +56,7 @@ class Questionnaire {
         }
     }
 
+    // Returns a question object to delete a department
     deleteDepartment() {
         return [
             {
@@ -59,6 +68,7 @@ class Questionnaire {
         ]
     }
 
+    // Returns an array of question objects to add a role
     addRole() {
         return [{
             message: `What is the name of the role?`,
@@ -77,6 +87,7 @@ class Questionnaire {
         ]
     }
 
+    // Returns a question object to delete a role
     deleteRole() {
         return [
             {
@@ -88,6 +99,7 @@ class Questionnaire {
         ]
     }
 
+    // Returns an array of question objects to add an employee
     addEmployee() {
         return [{
             message: `What is the employee's first name?`,
@@ -111,6 +123,7 @@ class Questionnaire {
         }]
     }
 
+    // Returns an array of question objects to update an employee
     updateEmployee() {
         return [{
             message: `Which employee do you want to update?`,
@@ -126,6 +139,7 @@ class Questionnaire {
         }]
     }
 
+    // Returns a question object to update an employee's role
     updateEmployeeRole() {
         return [{
             message: `Which role do you want to assign the selected employee?`,
@@ -135,6 +149,7 @@ class Questionnaire {
         }]
     }
 
+    // Returns a question object to update an employee's manager
     updateEmployeeManager() {
         return [{
             message: `Which manager do you want to assign to the selected employee?`,
@@ -144,6 +159,7 @@ class Questionnaire {
         }]
     }
 
+    // Returns a question object to delete an employee
     deleteEmployee() {
         return [
             {
@@ -155,6 +171,7 @@ class Questionnaire {
         ];
     }
 
+    // Returns a question object to find employees by manager
     findEmployeeByManager() {
         return [
             {
@@ -166,7 +183,8 @@ class Questionnaire {
         ];
     }
 
-    findEmployeesByDeparment() {
+    // Returns a question object to find employees by department
+    findEmployeesByDepartment() {
         return [
             {
                 type: 'list',
@@ -177,7 +195,8 @@ class Questionnaire {
         ];
     }
 
-    findBudgetByDeparment() {
+    // Returns a question object to find the budget by department
+    findBudgetByDepartment() {
         return [
             {
                 type: 'list',
